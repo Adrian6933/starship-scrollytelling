@@ -1,0 +1,23 @@
+{
+  "name": "starship-scrollytelling",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "check": "astro check",
+    "preview": "astro preview",
+    "frames": "node scripts/extract-frames.mjs"
+  },
+  "dependencies": {
+    "astro": "^5.2.5",
+    "gsap": "^3.12.7"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@tailwindcss/vite": "^4.0.6",
+    "tailwindcss": "^4.0.6",
+    "typescript": "^5.9.3"
+  }
+}

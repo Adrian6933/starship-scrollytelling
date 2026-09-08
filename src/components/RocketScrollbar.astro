@@ -1,0 +1,47 @@
+---
+// Indicador de scroll con forma de cohete + panel de telemetría.
+// Se posiciona fixed a la derecha; el JS solo mueve el hijo .rocket.
+---
+
+<aside
+  class="fixed right-4 top-0 z-30 hidden h-screen w-24 select-none py-16 md:block"
+  aria-hidden="true"
+>
+  <!-- Raíl -->
+  <div id="rocket-track" class="relative mx-auto h-full w-px bg-white/10">
+    <!-- Estela: crece desde abajo conforme avanzamos -->
+    <div
+      id="rocket-trail"
+      class="absolute inset-x-0 bottom-0 h-full w-px origin-bottom bg-gradient-to-t from-flame via-flame/40 to-transparent"
+      style="transform: scaleY(0)"
+    >
+    </div>
+
+    <!-- Cohete + telemetría pegada a él -->
+    <div id="rocket" class="absolute left-1/2 top-0 -translate-x-1/2 will-change-transform">
+      <svg width="26" height="52" viewBox="0 0 26 52" fill="none" class="drop-shadow-[0_0_12px_rgba(255,107,26,0.55)]">
+        <path d="M13 0C19 8 22 17 22 27v11H4V27C4 17 7 8 13 0Z" fill="#e9eef7" />
+        <path d="M13 0c6 8 9 17 9 27v11h-9V0Z" fill="#b9c4d6" />
+        <circle cx="13" cy="20" r="4" fill="#4dc9ff" />
+        <path d="M4 30 0 42h4V30ZM22 30l4 12h-4V30Z" fill="#ff6b1a" />
+        <path d="M9 38h8l-4 14-4-14Z" fill="#ff6b1a" opacity="0.9">
+          <animate attributeName="opacity" values="0.55;1;0.55" dur="0.35s" repeatCount="indefinite" />
+        </path>
+      </svg>
+
+      <!-- Panel de telemetría -->
+      <div class="absolute right-9 top-1 w-36 text-right font-[JetBrains_Mono,monospace]">
+        <p class="text-[10px] uppercase tracking-[0.18em] text-white/40">Velocidad</p>
+        <p class="text-sm font-semibold text-plasma">
+          <span id="telemetry-speed" class="tabular-nums">0</span>
+          <span class="text-[10px] text-white/40"> km/h</span>
+        </p>
+        <p class="mt-2 text-[10px] uppercase tracking-[0.18em] text-white/40">Altitud</p>
+        <p class="text-sm font-semibold text-flame">
+          <span id="telemetry-altitude" class="tabular-nums">0</span>
+          <span class="text-[10px] text-white/40"> km</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</aside>

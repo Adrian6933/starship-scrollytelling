@@ -1,0 +1,30 @@
+---
+interface Props {
+  kicker?: string;
+  title: string;
+  align?: 'left' | 'right' | 'center';
+}
+
+const { kicker, title, align = 'left' } = Astro.props;
+
+const alignment = {
+  left: 'items-start text-left',
+  right: 'items-end text-right ml-auto',
+  center: 'items-center text-center mx-auto',
+}[align];
+---
+
+<!-- Sección transparente: el canvas fijo se ve por debajo -->
+<section class="relative z-10 flex min-h-screen w-full items-center px-6 md:px-20">
+  <div class={`reveal flex max-w-xl flex-col gap-4 ${alignment}`}>
+    {kicker && (
+      <span class="font-[JetBrains_Mono,monospace] text-xs uppercase tracking-[0.35em] text-flame">
+        {kicker}
+      </span>
+    )}
+    <h2 class="text-4xl font-bold leading-tight text-white md:text-6xl">{title}</h2>
+    <div class="text-base leading-relaxed text-white/70 md:text-lg">
+      <slot />
+    </div>
+  </div>
+</section>

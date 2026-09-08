@@ -1,0 +1,127 @@
+---
+import Layout from '../layouts/Layout.astro';
+import RocketScrollbar from '../components/RocketScrollbar.astro';
+import StoryChapter from '../components/StoryChapter.astro';
+---
+
+<Layout>
+  <!-- Fondo: secuencia de imágenes dibujada en canvas -->
+  <canvas id="stage" class="stage-canvas"></canvas>
+
+  <!-- Velo para que el texto siempre tenga contraste sobre el fotograma -->
+  <div class="pointer-events-none fixed inset-0 z-[1] bg-gradient-to-r from-space/85 via-space/30 to-space/70"></div>
+
+  <!-- Pantalla de precarga -->
+  <div
+    id="preloader"
+    class="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-space transition-opacity duration-700"
+  >
+    <p class="font-[JetBrains_Mono,monospace] text-xs uppercase tracking-[0.4em] text-white/40">
+      Secuencia de vuelo
+    </p>
+    <p id="preload-progress" class="font-[JetBrains_Mono,monospace] text-5xl font-semibold text-white">0%</p>
+  </div>
+
+  <RocketScrollbar />
+
+  <main class="relative z-10">
+    <!-- Hero -->
+    <section class="relative flex min-h-screen flex-col items-center justify-center px-6 text-center">
+      <div class="reveal flex flex-col items-center gap-6">
+        <span class="font-[JetBrains_Mono,monospace] text-xs uppercase tracking-[0.5em] text-plasma">
+          Starbase · Texas
+        </span>
+        <h1 class="text-6xl font-bold leading-none text-white md:text-9xl">STARSHIP</h1>
+        <p class="max-w-md text-white/60">
+          121 metros de acero inoxidable, 33 motores Raptor y un objetivo:
+          convertir el viaje interplanetario en algo rutinario.
+        </p>
+      </div>
+      <div class="absolute bottom-10 animate-bounce font-[JetBrains_Mono,monospace] text-[10px] uppercase tracking-[0.3em] text-white/30">
+        Scroll para despegar
+      </div>
+    </section>
+
+    <StoryChapter kicker="T-00:00:03" title="Ignición" align="left">
+      <p>
+        Los 33 Raptor del Super Heavy se encienden de forma escalonada en menos de
+        un segundo. El sistema de sujeción no libera la nave hasta confirmar empuje
+        nominal en todos ellos: 7.590 toneladas empujando contra el suelo.
+      </p>
+    </StoryChapter>
+
+    <StoryChapter kicker="T+00:00:52" title="Max-Q" align="right">
+      <p>
+        El punto de máxima presión aerodinámica. La estructura aguanta la mayor
+        carga mecánica de todo el vuelo mientras atraviesa la troposfera a
+        velocidad supersónica. A partir de aquí, el aire deja de ser un problema.
+      </p>
+    </StoryChapter>
+
+    <StoryChapter kicker="T+00:02:41" title="Hot staging" align="left">
+      <p>
+        La segunda etapa enciende sus motores <em>antes</em> de separarse del
+        propulsor. Se pierde algo de eficiencia, pero se gana algo más valioso:
+        continuidad de empuje y un margen de control que ninguna separación
+        clásica ofrece.
+      </p>
+    </StoryChapter>
+
+    <StoryChapter kicker="T+00:08:30" title="Corte de motores" align="right">
+      <p>
+        SECO. La nave alcanza velocidad orbital y apaga los Raptor. Silencio
+        absoluto, microgravedad y una trayectoria que ya no depende de nada más
+        que de la física.
+      </p>
+    </StoryChapter>
+
+    <StoryChapter kicker="T+00:45:00" title="Reentrada" align="center">
+      <p>
+        18.000 losetas cerámicas contra 1.400 °C de plasma. La nave cae de panza,
+        frenando con su propio cuerpo, hasta ejecutar el giro final y aterrizar
+        de pie. Reutilizable. Otra vez mañana.
+      </p>
+    </StoryChapter>
+
+    <!-- Cierre -->
+    <section class="relative z-10 flex min-h-screen items-center justify-center px-6">
+      <div class="reveal text-center">
+        <p class="font-[JetBrains_Mono,monospace] text-xs uppercase tracking-[0.4em] text-flame">
+          Misión completada
+        </p>
+        <h2 class="mt-4 text-5xl font-bold text-white md:text-7xl">Nos vemos en Marte</h2>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  import { initCanvasSequence } from '../scripts/canvas-sequence.js';
+  import { initRocketScrollbar } from '../scripts/rocket-scrollbar.js';
+  import { initTextReveal } from '../scripts/text-reveal.js';
+
+  const preloader = document.getElementById('preloader');
+
+  // Bloqueamos el scroll mientras precargan los fotogramas.
+  document.body.style.overflow = 'hidden';
+
+  initCanvasSequence({
+    canvas: document.getElementById('stage'),
+    progressEl: document.getElementById('preload-progress'),
+    onReady: () => {
+      document.body.style.overflow = '';
+      preloader?.classList.add('opacity-0', 'pointer-events-none');
+      setTimeout(() => preloader?.remove(), 800);
+
+      initRocketScrollbar({
+        track: document.getElementById('rocket-track'),
+        rocket: document.getElementById('rocket'),
+        trailEl: document.getElementById('rocket-trail'),
+        speedEl: document.getElementById('telemetry-speed'),
+        altitudeEl: document.getElementById('telemetry-altitude'),
+      });
+
+      initTextReveal('.reveal');
+    },
+  });
+</script>

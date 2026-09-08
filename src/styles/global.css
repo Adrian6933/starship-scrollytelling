@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@theme {
+  --color-space: #05070d;
+  --color-flame: #ff6b1a;
+  --color-plasma: #4dc9ff;
+  --font-mono-tech: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* ---- Scrollbar nativa oculta (seguimos usando scroll real) ---- */
+html {
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* IE / Edge viejo */
+  scroll-behavior: auto;          /* GSAP no se lleva bien con smooth nativo */
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;                  /* Chrome / Safari */
+}
+
+body {
+  background-color: var(--color-space);
+  color: #e6edf7;
+  overscroll-behavior-y: none;
+}
+
+/* El canvas de fondo vive detrás de todo */
+.stage-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Estado inicial de los bloques de texto: GSAP lo revierte al entrar */
+.reveal {
+  opacity: 0;
+  transform: translateY(48px);
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

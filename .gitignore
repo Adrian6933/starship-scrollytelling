@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+public/frames/*.webp
+raw/*.mp4
+raw/lista.txt
+
+# videos fuente pesados (no se suben)
+raw/
+dist/
+
+.env
+.env.*
+!.env.example
